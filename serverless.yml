@@ -58,12 +58,16 @@ functions:
 resources:
   Resources:
     MwsReportSubsQueue:
-      Type: "AWS::SQS::Queue"
+      Type: AWS::SQS::Queue
       Properties:
         QueueName: mws-report-subs-queue
     MwsReportSubsQueuePolicy:
       Type: AWS::SQS::QueuePolicy
+      DependsOn:
+        - MwsReportSubsQueue
       Properties: 
+        Queues: 
+          - !Ref MwsReportSubsQueue
         PolicyDocument:
           Statement: 
             - Action: 
@@ -72,6 +76,5 @@ resources:
               Effect: "Allow"
               Resource: !GetAtt MwsReportSubsQueue.Arn
               Principal:
-                AWS: "arn:aws:iam::123456789012:root"
-        Queues: 
-          - !Ref MwsReportSubsQueue
+                AWS: 
+                  - "arn:aws:iam::123456789012:root"
