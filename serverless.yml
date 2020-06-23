@@ -69,13 +69,18 @@ resources:
         Queues: 
           - !Ref MwsReportSubsQueue
         PolicyDocument:
-          Version: "2012-10-17"
-          Statement: 
-            - Action: 
-                - "SQS:GetQueueAttributes" 
-                - "SQS:SendMessage"
-              Effect: "Allow"
-              Resource: !GetAtt MwsReportSubsQueue.Arn
-              Principal:
-                AWS: 
-                  - "arn:aws:iam::123456789012:root"
+          {
+            "Version": "2012-10-17",
+            "Id": "MwsReportSubsQueuePolicy",
+            "Statement": [{
+              "Sid":"MwsReportSubsQueuePolicy001",
+              "Action": ["SQS:GetQueueAttributes", "SQS:SendMessage"],
+              "Effect":"Allow",
+              "Resource": {
+                "Fn::GetAtt": ["MwsReportSubsQueue", "Arn"]
+              },
+              "Principal": {
+                "AWS": ["arn:aws:iam::123456789012:root"]
+              },
+            }]
+          }
