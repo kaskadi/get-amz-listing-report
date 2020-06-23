@@ -21,6 +21,7 @@ provider:
     service: ${self:service.name}
     logical-unit: mws-subscriptions
     type: sqs
+  # should add a policy to allow invocation of set-stocks
 
 functions:
   GetAmzReport:
@@ -33,6 +34,7 @@ functions:
     events:
       - sqs:
           arn: !GetAtt MwsReportSubsQueue.Arn
+    # should define set-stocks lambda as destination for this lambda
 
 resources:
   Resources:
