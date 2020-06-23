@@ -47,12 +47,13 @@ functions:
         - 'get-amz-report.js'
         - 'helpers/**'
     environment:
-      ACCESS_KEY: ${env:ACCESS_KEY},
-      SELLER_ID: ${env:SELLER_ID},
+      ACCESS_KEY: ${env:ACCESS_KEY}
+      SELLER_ID: ${env:SELLER_ID}
       MWS_AUTH_TOKEN: ${env:MWS_AUTH_TOKEN}
     events:
       - sqs:
           arn: !GetAtt MwsReportSubsQueue.Arn
+          batchSize: 1
     # should define set-stocks lambda as destination for this lambda
 
 resources:
