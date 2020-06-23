@@ -76,7 +76,5 @@ resources:
                 - sqs:SendMessage
               Effect: Allow
               Resource: !GetAtt MwsReportSubsQueue.Arn
-              Principal: '*'
-              Condition:
-                ArnEquals:
-                  aws:SourceArn: "arn:aws:iam::437568002678:root"
+              Principal:
+                AWS: arn:aws:iam::437568002678:root
