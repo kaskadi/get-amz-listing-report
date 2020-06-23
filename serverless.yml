@@ -70,12 +70,13 @@ resources:
           Version: "2012-10-17"
           Id: MwsReportSubsQueuePolicy
           Statement: 
-            - Sid: allowMWS
+            - Sid: allow-MWS-send-messages
               Action: 
                 - sqs:GetQueueAttributes
                 - sqs:SendMessage
-              Effect: "Allow"
+              Effect: Allow
               Resource: !GetAtt MwsReportSubsQueue.Arn
-              Principal:
-                AWS:
-                  - "arn:aws:iam::123456789012:root"
+              Principal: '*'
+              Condition:
+                ArnEquals:
+                  aws:SourceArn: "arn:aws:iam::123456789012:root"
