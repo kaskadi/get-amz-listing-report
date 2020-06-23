@@ -79,4 +79,4 @@ resources:
               Principal: '*'
               Condition:
                 ArnEquals:
-                  aws:SourceArn: "arn:aws:iam::123456789012:root"
+                  aws:SourceArn: "arn:aws:iam::437568002678:root"
