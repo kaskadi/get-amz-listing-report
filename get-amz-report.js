@@ -15,5 +15,3 @@ module.exports.handler = async (event) => {
     })
   }
 }
-
-// force
