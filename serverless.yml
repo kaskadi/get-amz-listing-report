@@ -61,3 +61,17 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: mws-report-subs-queue
+    MwsReportSubsQueuePolicy:
+      Type: AWS::SQS::QueuePolicy
+      Properties: 
+        PolicyDocument:
+          Statement: 
+            - Action: 
+                - "SQS:GetQueueAttributes" 
+                - "SQS:SendMessage"
+              Effect: "Allow"
+              Resource: !GetAtt MwsReportSubsQueue.Arn
+              Principal:
+                AWS: "arn:aws:iam::123456789012:root"
+        Queues: 
+          - !Ref MwsReportSubsQueue
