@@ -12,7 +12,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: npm ci && npm run install-layer
+      run: npm i
+    - name: Install layer dependencies
+      run: |
+        cd layer/nodejs
+        npm i
     - name: serverless-check
       uses: kaskadi/action-slscli@master
       with:
@@ -21,3 +25,6 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
+        ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+        SELLER_ID: ${{ secrets.SELLER_ID }}
+        MWS_AUTH_TOKEN: ${{ secrets.MWS_AUTH_TOKEN }}

@@ -23,14 +23,33 @@ provider:
     type: sqs
   # should add a policy to allow invocation of set-stocks
 
+layers:
+  GetAmzReportLayer:
+    path: layer
+    name: ${self:service.name}-layer
+    description: Layer for ${self:service.name}
+    compatibleRuntimes:
+      - nodejs10.x
+      - nodejs12.x
+    licenseInfo: MIT
+    package:
+      include:
+        - '**/**'
+
 functions:
   GetAmzReport:
     handler: get-amz-report.handler
     name: ${self:service.name}
+    layers:
+      - { Ref: GetAmzReportLayerLambdaLayer}
     package:
       include:
         - 'get-amz-report.js'
         - 'helpers/**'
+    environment:
+      ACCESS_KEY: ${env:ACCESS_KEY},
+      SELLER_ID: ${env:SELLER_ID},
+      MWS_AUTH_TOKEN: ${env:MWS_AUTH_TOKEN}
     events:
       - sqs:
           arn: !GetAtt MwsReportSubsQueue.Arn
