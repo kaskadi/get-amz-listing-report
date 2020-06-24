@@ -54,12 +54,20 @@ functions:
       - sqs:
           arn: !GetAtt MwsReportSubsQueueDE.Arn
           batchSize: 1
+      - sqs:
+          arn: !GetAtt MwsReportSubsQueueES.Arn
+          batchSize: 1
+      - sqs:
+          arn: !GetAtt MwsReportSubsQueueFR.Arn
+          batchSize: 1
+      - sqs:
+          arn: !GetAtt MwsReportSubsQueueGB.Arn
+          batchSize: 1
+      - sqs:
+          arn: !GetAtt MwsReportSubsQueueIT.Arn
+          batchSize: 1
     # should define set-stocks lambda as destination for this lambda
 
 resources:
   Resources:
-    ${file(./resources/mws-report-subs-queue-de.yml)}
-    ${file(./resources/mws-report-subs-queue-fr.yml)}
-    ${file(./resources/mws-report-subs-queue-it.yml)}
-    ${file(./resources/mws-report-subs-queue-es.yml)}
-    ${file(./resources/mws-report-subs-queue-gb.yml)}
+    ${file(./resources/eu-queues.yml)}
