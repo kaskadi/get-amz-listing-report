@@ -19,7 +19,7 @@ function getMatchingListings(ean) {
 
 function getStockDataForEntry(listing) {
   return {
-    asins: Object.entries(listing).filter(entry => entry[0].includes('asin')).map(entry => entry[1]),
+    asins: Object.entries(listing).filter(entry => entry[0].includes('asin')).map(entry => entry[1]).filter(asin => asin.length > 0),
     sellerSku: listing['seller-sku'],
     quantity: listing.quantity,
     pendingQuantity: listing['pending-quantity'],
