@@ -1,5 +1,4 @@
 module.exports.handler = async (event) => {
-  console.log(JSON.stringify(event, null, 2))
   const parseMsg = require('./helpers/parse-msg.js')
   const getReport = require('./helpers/get-report.js')
   const parseReport = require('./helpers/parse-report.js')
@@ -8,5 +7,6 @@ module.exports.handler = async (event) => {
   if (!msgData.reportId) {
     return {}
   }
+  console.log(JSON.stringify(event, null, 2))
   return await getReport(msgData).then(report => processReport(parseReport(report)))
 }

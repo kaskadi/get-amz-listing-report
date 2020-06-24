@@ -1,6 +1,7 @@
 module.exports = (msg) => {
   const bodyData = getBodyData(msg)
   if (bodyData.ReportType !== '_GET_MERCHANT_LISTINGS_ALL_DATA_') {
+    console.log('Report type is not _GET_MERCHANT_LISTINGS_ALL_DATA_, not proceeding to request report.')
     return {}
   }
   return {
