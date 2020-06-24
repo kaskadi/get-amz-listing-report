@@ -52,19 +52,19 @@ functions:
       MWS_AUTH_TOKEN: ${env:MWS_AUTH_TOKEN}
     events:
       - sqs:
-          arn: !GetAtt MwsReportSubsQueueDE.Arn
+          arn: !GetAtt MwsReportSubDE.Arn
           batchSize: 1
       - sqs:
-          arn: !GetAtt MwsReportSubsQueueES.Arn
+          arn: !GetAtt MwsReportSubES.Arn
           batchSize: 1
       - sqs:
-          arn: !GetAtt MwsReportSubsQueueFR.Arn
+          arn: !GetAtt MwsReportSubFR.Arn
           batchSize: 1
       - sqs:
-          arn: !GetAtt MwsReportSubsQueueGB.Arn
+          arn: !GetAtt MwsReportSubGB.Arn
           batchSize: 1
       - sqs:
-          arn: !GetAtt MwsReportSubsQueueIT.Arn
+          arn: !GetAtt MwsReportSubIT.Arn
           batchSize: 1
     # should define set-stocks lambda as destination for this lambda
 
