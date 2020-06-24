@@ -6,6 +6,7 @@ on:
       - '!release/**'
     paths:
       - 'serverless.yml'
+      - 'resources/**'
 jobs:
   test:
     runs-on: ubuntu-latest

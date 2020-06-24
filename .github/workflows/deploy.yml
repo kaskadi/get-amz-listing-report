@@ -8,6 +8,8 @@ on:
     paths:
       - 'serverless.yml'
       - 'get-amz-report.js'
+      - 'helpers/**'
+      - 'resources/**'
       - 'layer/**'
 jobs:
   deploy:

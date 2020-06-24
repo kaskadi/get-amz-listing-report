@@ -9,5 +9,4 @@ module.exports.handler = async (event) => {
     return {}
   }
   return await getReport(msgData).then(report => processReport(parseReport(report)))
-  
 }
