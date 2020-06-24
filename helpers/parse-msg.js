@@ -18,6 +18,6 @@ function getBodyData (msg) {
 
 function getMarketplace (msg) {
   const eventSourceARN = msg.eventSourceARN
-  const queueName = eventSourceARN.split(':')[eventSourceARN.length - 1]
-  return queueName.split('-')[queueName.length -1]
+  const queueName = eventSourceARN.split(':').pop()
+  return queueName.split('-').pop()
 }
