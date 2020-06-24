@@ -1,4 +1,5 @@
 module.exports.handler = async (event) => {
+  console.log(JSON.stringify(event, null, 2))
   const getReportId = require('./helpers/get-report-id.js')
   const getReport = require('./helpers/get-report.js')
   const parseReport = require('./helpers/parse-report.js')

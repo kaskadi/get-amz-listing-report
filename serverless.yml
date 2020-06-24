@@ -52,30 +52,14 @@ functions:
       MWS_AUTH_TOKEN: ${env:MWS_AUTH_TOKEN}
     events:
       - sqs:
-          arn: !GetAtt MwsReportSubsQueue.Arn
+          arn: !GetAtt MwsReportSubsQueueDE.Arn
           batchSize: 1
     # should define set-stocks lambda as destination for this lambda
 
 resources:
   Resources:
-    MwsReportSubsQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: mws-report-subs-queue
-    MwsReportSubsQueuePolicy:
-      Type: AWS::SQS::QueuePolicy
-      Properties: 
-        Queues: 
-          - !Ref MwsReportSubsQueue
-        PolicyDocument:
-          Version: "2012-10-17"
-          Id: MwsReportSubsQueuePolicy
-          Statement: 
-            - Sid: allow-MWS-send-messages
-              Action: 
-                - sqs:GetQueueAttributes
-                - sqs:SendMessage
-              Effect: Allow
-              Resource: !GetAtt MwsReportSubsQueue.Arn
-              Principal:
-                AWS: arn:aws:iam::437568002678:root
+    ${file(./resources/mws-report-subs-queue-de.yml)}
+    ${file(./resources/mws-report-subs-queue-fr.yml)}
+    ${file(./resources/mws-report-subs-queue-it.yml)}
+    ${file(./resources/mws-report-subs-queue-es.yml)}
+    ${file(./resources/mws-report-subs-queue-gb.yml)}

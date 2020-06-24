@@ -1,0 +1,21 @@
+MwsReportSubsQueueES:
+  Type: AWS::SQS::Queue
+  Properties:
+    QueueName: mws-report-subs-queue-ES
+MwsReportSubsQueuePolicyES:
+  Type: AWS::SQS::QueuePolicy
+  Properties: 
+    Queues: 
+      - !Ref MwsReportSubsQueueES
+    PolicyDocument:
+      Version: "2012-10-17"
+      Id: MwsReportSubsQueueESPolicy
+      Statement: 
+        - Sid: allow-MWS-send-messages
+          Action: 
+            - sqs:GetQueueAttributes
+            - sqs:SendMessage
+          Effect: Allow
+          Resource: !GetAtt MwsReportSubsQueueES.Arn
+          Principal:
+            AWS: arn:aws:iam::437568002678:root
