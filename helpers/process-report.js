@@ -1,33 +1,77 @@
 module.exports = (parsedReport, marketplace) => {
-  const eans = [...new Set(parsedReport.map(listing => listing['product-id']))]
+  const eanAsinMaps = getIdsMaps(parsedReport, 'ean')
+  const asinSkuMaps = getIdsMaps(parsedReport, 'asin')
+  const productIdsMaps = eanAsinMaps.map(eanAsinMap => {
+    return {
+      ean: eanAsinMap.ean,
+      asinSkuMaps: asinSkuMaps.filter(asinSkuMap => eanAsinMap.asins.includes(asinSkuMap.asin))
+    }
+  })
+  const connectedAsins = eanAsinMaps.flatMap(eanAsinMap => eanAsinMap.asins)
+  const orphanedAsinsMaps = asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
+  console.log(JSON.stringify(orphanedAsinsMaps, null, 2)) // to keep track of any orphaned products
   return {
     marketplace,
-    stockData: eans.map(getDataPerEan(parsedReport))
+    marketplaceStockData: productIdsMaps.map(getEanStockData(parsedReport))
   }
 }
 
-function getDataPerEan(parsedReport) {
-  return ean => {
-    const matchingListings = parsedReport.filter(getMatchingListings(ean))
+function getEanStockData (parsedReport) {
+  return productIdsMap => {
     return {
-      ean,
-      stocks: matchingListings.map(getStocksForEntry)
+      ean: productIdsMap.ean,
+      eanStockData: productIdsMap.asinSkuMaps.map(getAsinStockData(parsedReport))
     }
   }
 }
 
-function getMatchingListings(ean) {
-  return listing => listing['product-id'] === ean
+function getAsinStockData(parsedReport) {
+  return asinSkuMap => {
+    return {
+      asin: asinSkuMap.asin,
+      asinStockData: asinSkuMap.sellerSkus.map(getSkuStockData(parsedReport))
+    }
+  }
 }
 
-function getStocksForEntry(listing) {
-  return {
-    asins: Object.entries(listing).filter(entry => entry[0].includes('asin')).map(entry => entry[1]).filter(asin => asin.length > 0),
-    sellerSku: listing['seller-sku'],
-    quantity: listing.quantity,
-    pendingQuantity: listing['pending-quantity'],
-    fulfilmentChannel: listing['fulfilment-channel'],
-    status: listing.status,
-    condition: listing['item-condition']
+function getSkuStockData(parsedReport) {
+  return sellerSku => {
+    const matchingListings = parsedReport.filter(listing => listing['seller-sku'] === sellerSku)
+    if (matchingListings.length > 1) {
+      console.log(`THERE IS MORE THAN 1 LISTING FOR ${sellerSku}`)
+    }
+    return {
+      sellerSku,
+      quantity: Number(matchingListings[0].quantity),
+      pendingQuantity: Number(matchingListings[0]['pending-quantity']),
+      condition: matchingListings[0].condition,
+      fullfillmentChannel: matchingListings[0]['fullfilment-channel']
+    }
+  }
+}
+
+function getIdsMaps (parsedReport, idType) {
+  const listings = idType === 'ean' ? parsedReport.filter(listing => listing['product-id-type'] === '4') : parsedReport
+  const keyMaps = getKeyMaps(idType)
+  const idDuplets = listings.map(listing => Object.fromEntries(keyMaps.map(keyMap => [keyMap.key, listing[keyMap.listingKey]])))
+  const ids = [...new Set(listings.map(listing => listing[keyMaps[0].listingKey]))]
+  return ids.map(buildIdsMap(idDuplets, keyMaps))
+}
+
+function getKeyMaps (idType) {
+  const keyMaps = [{ key: 'ean', listingKey: 'product-id' }, { key: 'asin', listingKey: 'asin1' }, { key: 'sellerSku', listingKey: 'seller-sku' }]
+  const idIndex = keyMaps.findIndex(keyMap => keyMap.key === idType)
+  return keyMaps.slice(idIndex, idIndex + 2)
+}
+
+function buildIdsMap (idDuplets, keyMaps) {
+  return id => {
+    const matchingDuplets = idDuplets.filter(duplet => duplet[keyMaps[0].key] === id)
+    const secondaryIds = [...new Set(matchingDuplets.map(duplet => duplet[keyMaps[1].key]))]
+    const idMap = [
+      [keyMaps[0].key, id],
+      [`${keyMaps[1].key}s`, secondaryIds]
+    ]
+    return Object.fromEntries(idMap)
   }
 }
