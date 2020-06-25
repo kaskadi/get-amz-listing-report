@@ -15,7 +15,7 @@ function getIdsMap (parsedReport, idType) {
 
 function getIdKeysMaps (idType) {
   const IdKeysMaps = [{ key: 'ean', listingKey: 'product-id' }, { key: 'asin', listingKey: 'asin1' }, { key: 'sellerSku', listingKey: 'seller-sku' }]
-  const idIndex = IdKeysMaps.indexOf(IdKeysMaps.filter(idMap => idMap.key === idType))
+  const idIndex = IdKeysMaps.findIndex(IdKeysMap => IdKeysMap.key === idType)
   return IdKeysMaps.slice(idIndex, idIndex + 2)
 }
 
