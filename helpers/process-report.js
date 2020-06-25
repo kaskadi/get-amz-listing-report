@@ -1,23 +1,18 @@
 module.exports = (parsedReport, marketplace) => {
   const eanAsinMaps = getIdsMaps(parsedReport, 'ean')
   const asinSkuMaps = getIdsMaps(parsedReport, 'asin')
+  const connectedIdsMaps = eanAsinMaps.map(eanAsinMap => {
+    return {
+      ean: eanAsinMap.ean,
+      asinSkuMaps: asinSkuMaps.filter(asinSkuMap => eanAsinMap.asins.includes(asinSkuMap.asin))
+    }
+  })
   const connectedAsins = eanAsinMaps.flatMap(eanAsinMap => eanAsinMap.asins)
-  const connectedIdsMap = eanAsinMaps.map(eanAsinMap => {
-    return {
-      ean: eanAsinMap.ean,
-      asinSkuMaps: asinSkuMaps.filter(asinSkuMap => connectedAsins.includes(asinSkuMap.asin))
-    }
-  })
-  const orphanedIdsMap = eanAsinMaps.map(eanAsinMap => {
-    return {
-      ean: eanAsinMap.ean,
-      asinSkuMaps: asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
-    }
-  })
+  const orphanedasinSkuMaps = asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
   console.log(JSON.stringify(eanAsinMaps, null, 2))
   console.log(JSON.stringify(asinSkuMaps, null, 2))
-  console.log(JSON.stringify(connectedIdsMap, null, 2))
-  console.log(JSON.stringify(orphanedIdsMap, null, 2))
+  console.log(JSON.stringify(connectedIdsMaps, null, 2))
+  console.log(JSON.stringify(orphanedasinSkuMaps, null, 2))
 }
 
 function getIdsMaps (parsedReport, idType) {
