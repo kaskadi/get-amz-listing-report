@@ -9,9 +9,6 @@ module.exports = (parsedReport, marketplace) => {
   })
   const connectedAsins = eanAsinMaps.flatMap(eanAsinMap => eanAsinMap.asins)
   const orphanedAsinsMaps = asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
-  console.log(JSON.stringify(eanAsinMaps, null, 2))
-  console.log(JSON.stringify(asinSkuMaps, null, 2))
-  console.log(JSON.stringify(productIdsMaps, null, 2))
   console.log(JSON.stringify(orphanedAsinsMaps, null, 2)) // to keep track of any orphaned products
   return {
     marketplace,
