@@ -1,11 +1,26 @@
 module.exports = (parsedReport, marketplace) => {
-  const eanAsinMap = getIdsMap(parsedReport, 'ean')
-  const asinSkuMap = getIdsMap(parsedReport, 'asin')
+  const eanAsinMaps = getIdsMaps(parsedReport, 'ean')
+  const asinSkuMaps = getIdsMaps(parsedReport, 'asin')
+  const connectedAsins = eanAsinMaps.flatMap(eanAsinMap => eanAsinMap.asins)
+  const connectedIdsMap = eanAsinMaps.map(eanAsinMap => {
+    return {
+      ean: eanAsinMap.ean,
+      asinSkuMaps: asinSkuMaps.filter(asinSkuMap => connectedAsins.includes(asinSkuMap.asin))
+    }
+  })
+  const orphanedIdsMap = eanAsinMaps.map(eanAsinMap => {
+    return {
+      ean: eanAsinMap.ean,
+      asinSkuMaps: asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
+    }
+  })
   console.log(JSON.stringify(eanAsinMap, null, 2))
   console.log(JSON.stringify(asinSkuMap, null, 2))
+  console.log(JSON.stringify(connectedIdsMap, null, 2))
+  console.log(JSON.stringify(orphanedIdsMap, null, 2))
 }
 
-function getIdsMap (parsedReport, idType) {
+function getIdsMaps (parsedReport, idType) {
   const listings = idType === 'ean' ? parsedReport.filter(listing => listing['product-id-type'] === '4') : parsedReport
   const keyMaps = getKeyMaps(idType)
   const idDuplets = listings.map(listing => Object.fromEntries(keyMaps.map(keyMap => [keyMap.key, listing[keyMap.listingKey]])))
