@@ -14,8 +14,8 @@ module.exports = (parsedReport, marketplace) => {
       asinSkuMaps: asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
     }
   })
-  console.log(JSON.stringify(eanAsinMap, null, 2))
-  console.log(JSON.stringify(asinSkuMap, null, 2))
+  console.log(JSON.stringify(eanAsinMaps, null, 2))
+  console.log(JSON.stringify(asinSkuMaps, null, 2))
   console.log(JSON.stringify(connectedIdsMap, null, 2))
   console.log(JSON.stringify(orphanedIdsMap, null, 2))
 }
