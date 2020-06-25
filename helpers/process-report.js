@@ -1,18 +1,56 @@
 module.exports = (parsedReport, marketplace) => {
   const eanAsinMaps = getIdsMaps(parsedReport, 'ean')
   const asinSkuMaps = getIdsMaps(parsedReport, 'asin')
-  const connectedIdsMaps = eanAsinMaps.map(eanAsinMap => {
+  const productIdsMaps = eanAsinMaps.map(eanAsinMap => {
     return {
       ean: eanAsinMap.ean,
       asinSkuMaps: asinSkuMaps.filter(asinSkuMap => eanAsinMap.asins.includes(asinSkuMap.asin))
     }
   })
   const connectedAsins = eanAsinMaps.flatMap(eanAsinMap => eanAsinMap.asins)
-  const orphanedasinSkuMaps = asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
+  const orphanedAsinsMaps = asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
   console.log(JSON.stringify(eanAsinMaps, null, 2))
   console.log(JSON.stringify(asinSkuMaps, null, 2))
-  console.log(JSON.stringify(connectedIdsMaps, null, 2))
-  console.log(JSON.stringify(orphanedasinSkuMaps, null, 2))
+  console.log(JSON.stringify(productIdsMaps, null, 2))
+  console.log(JSON.stringify(orphanedAsinsMaps, null, 2)) // to keep track of any orphaned products
+  return {
+    marketplace,
+    marketplaceStockData: productIdsMaps.map(getEanStockData(parsedReport))
+  }
+}
+
+function getEanStockData (parsedReport) {
+  return productIdsMap => {
+    return {
+      ean: productIdsMap.ean,
+      eanStockData: productIdsMap.asinSkuMaps.map(getAsinStockData(parsedReport))
+    }
+  }
+}
+
+function getAsinStockData(parsedReport) {
+  return asinSkuMap => {
+    return {
+      asin: asinSkuMap.asin,
+      asinStockData: asinSkuMap.sellerSkus.map(getSkuStockData(parsedReport))
+    }
+  }
+}
+
+function getSkuStockData(parsedReport) {
+  return sellerSku => {
+    const matchingListings = parsedReport.filter(listing => listing['seller-sku'] === sellerSku)
+    if (matchingListings.length > 1) {
+      console.log(`THERE IS MORE THAN 1 LISTING FOR ${sellerSku}`)
+    }
+    return {
+      sellerSku,
+      quantity: Number(matchingListings[0].quantity),
+      pendingQuantity: Number(matchingListings[0]['pending-quantity']),
+      condition: matchingListings[0].condition,
+      fullfillmentChannel: matchingListings[0]['fullfilment-channel']
+    }
+  }
 }
 
 function getIdsMaps (parsedReport, idType) {
