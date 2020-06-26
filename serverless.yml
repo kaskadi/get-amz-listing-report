@@ -59,5 +59,6 @@ functions:
               Notification:
                 NotificationPayload:
                   ReportProcessingFinishedNotification:
-                    ReportType: '_GET_MERCHANT_LISTINGS_ALL_DATA_'
+                    ReportType:
+                      - '_GET_MERCHANT_LISTINGS_ALL_DATA_'
     # should define set-stocks lambda as destination for this lambda
