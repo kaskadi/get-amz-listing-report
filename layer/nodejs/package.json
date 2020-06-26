@@ -1,7 +1,7 @@
 {
-  "name": "get-amz-report-lambda",
+  "name": "get-amz-listing-report-lambda",
   "version": "1.0.0",
-  "description": "Lambda for get-amz-report",
+  "description": "Lambda for get-amz-listing-report",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +14,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "mws-client": "^1.0.3",
-    "xml2json": "^0.12.0"
+    "mws-client": "^1.0.3"
   }
 }

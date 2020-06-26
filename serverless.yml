@@ -1,5 +1,5 @@
 service:
-  name: get-amz-report
+  name: get-amz-listing-report
 
 package:
   individually: true
@@ -24,7 +24,7 @@ provider:
   # should add a policy to allow invocation of set-stocks
 
 layers:
-  GetAmzReportLayer:
+  GetAmzListingReportLambda:
     path: layer
     name: ${self:service.name}-layer
     description: Layer for ${self:service.name}
@@ -37,37 +37,23 @@ layers:
         - '**/**'
 
 functions:
-  GetAmzReport:
-    handler: get-amz-report.handler
+  GetAmzListingReport:
+    handler: get-amz-listing-report.handler
     name: ${self:service.name}
     layers:
-      - { Ref: GetAmzReportLayerLambdaLayer}
+      - { Ref: GetAmzListingReportLambdaLambdaLayer}
     package:
       include:
-        - 'get-amz-report.js'
+        - 'get-amz-listing-report.js'
         - 'helpers/**'
     environment:
       ACCESS_KEY: ${env:ACCESS_KEY}
       SELLER_ID: ${env:SELLER_ID}
       MWS_AUTH_TOKEN: ${env:MWS_AUTH_TOKEN}
     events:
-      - sqs:
-          arn: !GetAtt MwsReportSubDE.Arn
-          batchSize: 1
-      - sqs:
-          arn: !GetAtt MwsReportSubES.Arn
-          batchSize: 1
-      - sqs:
-          arn: !GetAtt MwsReportSubFR.Arn
-          batchSize: 1
-      - sqs:
-          arn: !GetAtt MwsReportSubGB.Arn
-          batchSize: 1
-      - sqs:
-          arn: !GetAtt MwsReportSubIT.Arn
-          batchSize: 1
+      - sns:
+          arn: arn:aws:sns:eu-central-1:374163881813:mws-report-topic
+          topicName: mws-report-topic
+          filterPolicy:
+            
     # should define set-stocks lambda as destination for this lambda
-
-resources:
-  Resources:
-    ${file(./resources/eu-queues.yml)}
