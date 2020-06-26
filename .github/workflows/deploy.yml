@@ -7,7 +7,7 @@ on:
       - 'release/**'
     paths:
       - 'serverless.yml'
-      - 'get-amz-report.js'
+      - 'get-amz-listing-report.js'
       - 'helpers/**'
       - 'resources/**'
       - 'layer/**'
