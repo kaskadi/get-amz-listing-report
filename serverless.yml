@@ -21,10 +21,9 @@ provider:
     service: ${self:service.name}
     logical-unit: mws-subscriptions
     type: sqs
-  # should add a policy to allow invocation of set-stocks
 
 layers:
-  GetAmzListingReportLambda:
+  GetAmzListingReportLayer:
     path: layer
     name: ${self:service.name}-layer
     description: Layer for ${self:service.name}
@@ -41,7 +40,7 @@ functions:
     handler: get-amz-listing-report.handler
     name: ${self:service.name}
     layers:
-      - { Ref: GetAmzListingReportLambdaLambdaLayer}
+      - { Ref: GetAmzListingReportLayerLambdaLayer}
     package:
       include:
         - 'get-amz-listing-report.js'
@@ -57,4 +56,5 @@ functions:
           filterPolicy:
             reportType:
               - '_GET_MERCHANT_LISTINGS_ALL_DATA_'
-    # should define set-stocks lambda as destination for this lambda
+    destinations:
+      onSuccess: arn:aws:lambda:eu-central-1:374163881813:function:set-stocks
