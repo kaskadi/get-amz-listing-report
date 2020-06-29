@@ -39,6 +39,7 @@ functions:
   GetAmzListingReport:
     handler: get-amz-listing-report.handler
     name: ${self:service.name}
+    timeout: 900
     layers:
       - { Ref: GetAmzListingReportLayerLambdaLayer}
     package:

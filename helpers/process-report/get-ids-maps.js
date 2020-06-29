@@ -1,4 +1,4 @@
-module.exports = (parsedReport, marketplace) => {
+module.exports = (parsedReport) => {
   const eanAsinMaps = getIdsMaps(parsedReport, 'ean')
   const asinSkuMaps = getIdsMaps(parsedReport, 'asin')
   const productIdsMaps = eanAsinMaps.map(eanAsinMap => {
@@ -10,42 +10,7 @@ module.exports = (parsedReport, marketplace) => {
   const connectedAsins = eanAsinMaps.flatMap(eanAsinMap => eanAsinMap.asins)
   const orphanedAsinsMaps = asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
   console.log('Orphaned products (no EAN attached)', JSON.stringify(orphanedAsinsMaps, null, 2)) // to keep track of any orphaned products
-  return {
-    marketplace,
-    marketplaceStockData: productIdsMaps.map(getEanStockData(parsedReport))
-  }
-}
-
-function getEanStockData (parsedReport) {
-  return productIdsMap => {
-    return {
-      ean: productIdsMap.ean,
-      eanStockData: productIdsMap.asinSkuMaps.map(getAsinStockData(parsedReport))
-    }
-  }
-}
-
-function getAsinStockData(parsedReport) {
-  return asinSkuMap => {
-    return {
-      asin: asinSkuMap.asin,
-      asinStockData: asinSkuMap.sellerSkus.map(getSkuStockData(parsedReport))
-    }
-  }
-}
-
-function getSkuStockData(parsedReport) {
-  const itemConditions = ['UsedLikeNew', 'UsedVeryGood', 'UsedGood', 'UsedAcceptable', 'CollectibleLikeNew', 'CollectibleVeryGood', 'CollectibleGood', 'CollectibleAcceptable', 'Used; Refurbished', 'Refurbished', 'New']
-  return sellerSku => {
-    const matchingListing = parsedReport.filter(listing => listing['seller-sku'] === sellerSku)[0]
-    return {
-      sellerSku,
-      quantity: Number(matchingListing.quantity),
-      pendingQuantity: Number(matchingListing['pending-quantity']),
-      condition: itemConditions[Number(matchingListing['item-condition']) - 1],
-      fulfilmentChannel: matchingListing['fulfilment-channel']
-    }
-  }
+  return productIdsMaps
 }
 
 function getIdsMaps (parsedReport, idType) {
