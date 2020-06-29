@@ -1,5 +1,4 @@
 module.exports = (productIdsMaps, quantityData, parsedReport, marketplace) => {
-  console.log(JSON.stringify(quantityData, null, 2))
   return {
     marketplace,
     marketplaceStockData: productIdsMaps.map(getEanStockData(parsedReport, quantityData))
