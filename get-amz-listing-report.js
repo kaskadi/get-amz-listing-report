@@ -4,6 +4,5 @@ module.exports.handler = async (event) => {
   const parseReport = require('./helpers/parse-report.js')
   const processReport = require('./helpers/process-report.js')
   const msgData = processMsg(JSON.parse(event.Records[0].Sns.Message)) // batchSize set to 1 so we only receive 1 message at a time, hence message = event.Records[0]
-  console.log(JSON.stringify(event, null, 2))
   return await getReport(msgData).then(report => processReport(parseReport(report), msgData.marketplace))
 }

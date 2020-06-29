@@ -9,7 +9,7 @@ module.exports = (parsedReport, marketplace) => {
   })
   const connectedAsins = eanAsinMaps.flatMap(eanAsinMap => eanAsinMap.asins)
   const orphanedAsinsMaps = asinSkuMaps.filter(asinSkuMap => !connectedAsins.includes(asinSkuMap.asin))
-  console.log(JSON.stringify(orphanedAsinsMaps, null, 2)) // to keep track of any orphaned products
+  console.log('Orphaned products (no EAN attached)', JSON.stringify(orphanedAsinsMaps, null, 2)) // to keep track of any orphaned products
   return {
     marketplace,
     marketplaceStockData: productIdsMaps.map(getEanStockData(parsedReport))
@@ -37,9 +37,6 @@ function getAsinStockData(parsedReport) {
 function getSkuStockData(parsedReport) {
   return sellerSku => {
     const matchingListings = parsedReport.filter(listing => listing['seller-sku'] === sellerSku)
-    if (matchingListings.length > 1) {
-      console.log(`THERE IS MORE THAN 1 LISTING FOR ${sellerSku}`)
-    }
     return {
       sellerSku,
       quantity: Number(matchingListings[0].quantity),
