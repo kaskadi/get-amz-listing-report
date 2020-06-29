@@ -35,14 +35,15 @@ function getAsinStockData(parsedReport) {
 }
 
 function getSkuStockData(parsedReport) {
+  const itemConditions = ['UsedLikeNew', 'UsedVeryGood', 'UsedGood', 'UsedAcceptable', 'CollectibleLikeNew', 'CollectibleVeryGood', 'CollectibleGood', 'CollectibleAcceptable', 'Used; Refurbished', 'Refurbished', 'New']
   return sellerSku => {
-    const matchingListings = parsedReport.filter(listing => listing['seller-sku'] === sellerSku)
+    const matchingListing = parsedReport.filter(listing => listing['seller-sku'] === sellerSku)[0]
     return {
       sellerSku,
-      quantity: Number(matchingListings[0].quantity),
-      pendingQuantity: Number(matchingListings[0]['pending-quantity']),
-      condition: matchingListings[0].condition,
-      fullfillmentChannel: matchingListings[0]['fullfilment-channel']
+      quantity: Number(matchingListing.quantity),
+      pendingQuantity: Number(matchingListing['pending-quantity']),
+      condition: itemConditions[Number(matchingListing['item-condition']) - 1],
+      fulfilmentChannel: matchingListing['fulfilment-channel']
     }
   }
 }
