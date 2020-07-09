@@ -58,4 +58,4 @@ functions:
             reportType:
               - '_GET_MERCHANT_LISTINGS_ALL_DATA_'
     destinations:
-      onSuccess: arn:aws:lambda:eu-central-1:374163881813:function:set-stocks
+      onSuccess: arn:aws:lambda:eu-central-1:374163881813:function:set-amz-stocks
