@@ -47,9 +47,9 @@ functions:
         - 'get-amz-listing-report.js'
         - 'helpers/**'
     environment:
-      ACCESS_KEY: ${env:ACCESS_KEY}
-      SELLER_ID: ${env:SELLER_ID}
-      MWS_AUTH_TOKEN: ${env:MWS_AUTH_TOKEN}
+      MWS_KEY_ID: ${env:MWS_KEY_ID}
+      MWS_KEY_SECRET: ${env:MWS_KEY_SECRET}
+      AMZ_EU_SELLER_ID: ${env:AMZ_EU_SELLER_ID}
     events:
       - sns:
           arn: arn:aws:sns:eu-central-1:374163881813:mws-report-topic

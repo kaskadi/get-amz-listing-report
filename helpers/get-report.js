@@ -1,8 +1,8 @@
 module.exports = async (msgData) => {
   const MWS = require('mws-client')({
-    AWSAccessKeyId: process.env.ACCESS_KEY,
-    SellerId: process.env.SELLER_ID,
-    MWSAuthToken: process.env.MWS_AUTH_TOKEN,
+    AWSAccessKeyId: process.env.MWS_KEY_ID,
+    SellerId: process.env.AMZ_EU_SELLER_ID,
+    MWSAuthToken: process.env.MWS_KEY_SECRET,
     parserType: 'text'
   })
   const mwsData = await MWS.reports.getReport({
