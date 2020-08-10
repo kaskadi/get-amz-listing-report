@@ -1,0 +1,26 @@
+name: build
+on:
+  pull_request:
+    branches:
+      - 'master'
+      - 'dev'
+    types: [opened, reopened, edited, synchronize]
+    paths:
+      - 'get-amz-listing-report.js'
+      - 'helpers/**'
+      - 'layer/**'
+      - 'test/**'
+      - 'package.json'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: npm i
+    - name: Test
+      run: npm test
+      env:
+        MWS_KEY_ID: ${{ secrets.MWS_KEY_ID }}
+        MWS_KEY_SECRET: ${{ secrets.MWS_KEY_SECRET }}
+        AMZ_EU_SELLER_ID: ${{ secrets.AMZ_EU_SELLER_ID }}
