@@ -67,3 +67,4 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: amz-listing-report-request-queue
+        VisibilityTimeout: ${self:functions.GetAmzListingReport.timeout}
