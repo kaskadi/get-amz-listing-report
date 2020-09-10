@@ -65,3 +65,5 @@ functions:
               responsePayload:
                 stocksEventType:
                   - 'amz-report-request'
+    destinations:
+      onSuccess: ${env:STOCKS_BUS_ARN}
