@@ -19,14 +19,14 @@ provider:
   tags:
     app: kaskadi
     service: ${self:service.name}
-    logical-unit: mws-subscriptions
-    type: sqs
+    logical-unit: stocks
+    type: eventBridge
   iamRoleStatements:
     - Effect: 'Allow'
       Action:
-        - 'sqs:SendMessage'
+        - 'events:PutEvents'
       Resource:
-        - !Join [ ":", [ arn:aws:sqs, Ref: AWS::Region, Ref: AWS::AccountId, amz-stocks-update-queue ] ]
+        - ${env:STOCKS_BUS_ARN}
 
 layers:
   GetAmzListingReportLayer:
@@ -56,15 +56,12 @@ functions:
       MWS_KEY_ID: ${env:MWS_KEY_ID}
       MWS_KEY_SECRET: ${env:MWS_KEY_SECRET}
       AMZ_EU_SELLER_ID: ${env:AMZ_EU_SELLER_ID}
+      STOCKS_BUS_ARN: ${env:STOCKS_BUS_ARN}
     events:
-      - sqs:
-          arn: !GetAtt AmzListingReportRequestQueue.Arn
-          batchSize: 1
-
-resources:
-  Resources:
-    AmzListingReportRequestQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: amz-listing-report-request-queue
-        VisibilityTimeout: ${self:functions.GetAmzListingReport.timeout}
+      - eventBridge:
+          eventBus: ${env:STOCKS_BUS_ARN}
+          pattern:
+            detail:
+              responsePayload:
+                stocksEventType:
+                  - 'amz-report-request'
