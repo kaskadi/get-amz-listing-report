@@ -19,8 +19,8 @@ provider:
   tags:
     app: kaskadi
     service: ${self:service.name}
-    logical-unit: mws-subscriptions
-    type: sqs
+    logical-unit: stocks
+    type: eventBridge
   iamRoleStatements:
     - Effect: 'Allow'
       Action:
