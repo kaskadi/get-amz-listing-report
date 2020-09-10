@@ -24,9 +24,9 @@ provider:
   iamRoleStatements:
     - Effect: 'Allow'
       Action:
-        - 'sqs:SendMessage'
+        - 'events:PutEvents'
       Resource:
-        - !Join [ ":", [ arn:aws:sqs, Ref: AWS::Region, Ref: AWS::AccountId, amz-stocks-update-queue ] ]
+        - ${env:STOCKS_BUS_ARN}
 
 layers:
   GetAmzListingReportLayer:
