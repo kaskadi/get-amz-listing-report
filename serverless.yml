@@ -57,6 +57,10 @@ functions:
       MWS_KEY_SECRET: ${env:MWS_KEY_SECRET}
       AMZ_EU_SELLER_ID: ${env:AMZ_EU_SELLER_ID}
     events:
-      - sqs:
-          arn: !GetAtt AmzListingReportRequestQueue.Arn
-          batchSize: 1
+      - eventBridge:
+          eventBus: ${env:EVENT_BUS_ARN}
+          pattern:
+            detail:
+              responsePayload:
+                stocksEventType:
+                  - 'amz-report-request'
