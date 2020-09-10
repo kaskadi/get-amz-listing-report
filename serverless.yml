@@ -56,6 +56,7 @@ functions:
       MWS_KEY_ID: ${env:MWS_KEY_ID}
       MWS_KEY_SECRET: ${env:MWS_KEY_SECRET}
       AMZ_EU_SELLER_ID: ${env:AMZ_EU_SELLER_ID}
+      STOCKS_BUS_ARN: ${env:STOCKS_BUS_ARN}
     events:
       - eventBridge:
           eventBus: ${env:EVENT_BUS_ARN}
