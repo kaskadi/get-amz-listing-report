@@ -6,7 +6,7 @@ module.exports.handler = async (event) => {
   const eventPayload = event.detail.responsePayload
   let stocks = []
   for (const marketplace of eventPayload.marketplaces) {
-    stocksData = await getReport(eventPayload.ReportRequestInfo.ReportRequestId, marketplace)
+    const stocksData = await getReport(eventPayload.ReportRequestInfo.ReportRequestId, marketplace)
       .then(parseReport)
       .then(processReport(marketplace))
     stocks = [...stocks, stocksData]
