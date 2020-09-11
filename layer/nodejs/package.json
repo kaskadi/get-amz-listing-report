@@ -14,6 +14,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "mws-client": "^1.0.4"
+    "mws-client": "^1.1.3"
   }
 }
