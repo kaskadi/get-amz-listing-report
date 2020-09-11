@@ -9,7 +9,6 @@ on:
       - 'serverless.yml'
       - 'get-amz-listing-report.js'
       - 'helpers/**'
-      - 'resources/**'
       - 'layer/**'
 jobs:
   deploy:
