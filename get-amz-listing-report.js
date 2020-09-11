@@ -4,15 +4,17 @@ module.exports.handler = async (event) => {
   const processReport = require('./helpers/process-report/process-report.js')
   console.log(JSON.stringify(event, null, 2))
   const eventPayload = event.detail.responsePayload
-  let stocks = []
+  let stockData = []
   for (const marketplace of eventPayload.marketplaces) {
-    const stocksData = await getReport(eventPayload.ReportRequestInfo.ReportRequestId, marketplace)
-      .then(parseReport)
-      .then(processReport(marketplace))
-    stocks = [...stocks, stocksData]
+    stockData = [
+      ...stockData,
+      await getReport(eventPayload.ReportRequestInfo.ReportRequestId, marketplace)
+        .then(parseReport)
+        .then(processReport(marketplace))
+    ]
   }
   return {
-    stocks,
+    stockData,
     stocksEventType: 'amz-stocks-update'
   }
 }
