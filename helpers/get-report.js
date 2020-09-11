@@ -31,7 +31,7 @@ function getReportId (marketplace) {
   return reportRequestInfo => reportRequestInfo.GeneratedReportId || MWS.reports.getReportList({
     _marketplace: marketplace,
     _httpMethod: 'POST',
-    'ReportRequestIdList.Id.1': reportRequestId
+    'ReportRequestIdList.Id.1': reportRequestInfo.reportRequestId
   }).then(data => data.body.GetReportListResponse.GetReportListResult.ReportInfo.ReportId)
 }
 
@@ -39,6 +39,7 @@ function fetchReport (marketplace) {
   return reportId => MWS.reports.getReport({
     _marketplace: marketplace,
     _httpMethod: 'POST',
-    ReportId: reportId
+    ReportId: reportId,
+    parserType: 'text'
   }).then(data => data.body)
 }
