@@ -1,25 +1,17 @@
 module.exports = (productIdsMaps, quantityData, parsedReport, marketplace) => {
   return {
     marketplace,
-    marketplaceStockData: productIdsMaps.map(getEanStockData(parsedReport, quantityData))
+    marketplaceStockData: productIdsMaps.map(getEanAsinStockData(parsedReport, quantityData, 'ean'))
   }
 }
 
-function getEanStockData (parsedReport, quantityData) {
-  return productIdsMap => {
-    return {
-      ean: productIdsMap.ean,
-      eanStockData: productIdsMap.asinSkuMaps.map(getAsinStockData(parsedReport, quantityData))
-    }
-  }
-}
-
-function getAsinStockData(parsedReport, quantityData) {
-  return asinSkuMap => {
-    return {
-      asin: asinSkuMap.asin,
-      asinStockData: asinSkuMap.sellerSkus.map(getSkuStockData(parsedReport, quantityData))
-    }
+function getEanAsinStockData (parsedReport, quantityData, type) {
+  return data => {
+    var res = {}
+    res[type] = data[type]
+    res[`${type}StockData`] = data[type === 'ean' ? 'asinSkuMaps' : 'sellerSkus']
+      .map(type === 'ean' ? getEanAsinStockData(parsedReport, quantityData, 'asin') : getSkuStockData(parsedReport, quantityData))
+    return res
   }
 }
 

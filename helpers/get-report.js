@@ -1,16 +1,10 @@
-const MWS = require('mws-client')({
-  AWSAccessKeyId: process.env.MWS_KEY_ID,
-  SellerId: process.env.AMZ_EU_SELLER_ID,
-  MWSAuthToken: process.env.MWS_KEY_SECRET
-})
-
-module.exports = (reportRequestId, marketplace) => {
-  return pollReport(reportRequestId, marketplace)
+module.exports = (MWS, reportRequestId, marketplace) => {
+  return pollReport(MWS, reportRequestId, marketplace)
     .then(getReportId(marketplace))
-    .then(fetchReport(marketplace))
+    .then(fetchReport(MWS, marketplace))
 }
 
-async function pollReport (reportRequestId, marketplace) {
+async function pollReport (MWS, reportRequestId, marketplace) {
   let reportReady = false
   let reportRequestInfo
   while (!reportReady) {
@@ -35,7 +29,7 @@ function getReportId (marketplace) {
   }).then(data => data.body.GetReportListResponse.GetReportListResult.ReportInfo.ReportId)
 }
 
-function fetchReport (marketplace) {
+function fetchReport (MWS, marketplace) {
   return reportId => MWS.reports.getReport({
     _marketplace: marketplace,
     _httpMethod: 'POST',
