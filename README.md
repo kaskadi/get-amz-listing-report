@@ -33,9 +33,9 @@ The following layers are defined in this repository:
 
 ## get-amz-listing-report <a name="get-amz-listing-report"></a>
 
-|          Name          | Sources                        | Timeout |                 Handler                | Layers                                                                          | Destinations                                                                                                          |
-| :--------------------: | :----------------------------- | :-----: | :------------------------------------: | :------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------- |
-| get-amz-listing-report | <ul><li>Event Bridge</li></ul> |   900   | [handler](./get-amz-listing-report.js) | <ul><li>[get-amz-listing-report-layer](#get-amz-listing-report-layer)</li></ul> | <ul><li>On success: arn:aws:events:eu-central-1:374163881813:event-bus/stocks</li><li>On failure: undefined</li></ul> |
+|          Name          | Sources                        | Timeout |                 Handler                | Layers                                                                          | Destinations                                                                 |
+| :--------------------: | :----------------------------- | :-----: | :------------------------------------: | :------------------------------------------------------------------------------ | :--------------------------------------------------------------------------- |
+| get-amz-listing-report | <ul><li>Event Bridge</li></ul> |   900s  | [handler](./get-amz-listing-report.js) | <ul><li>[get-amz-listing-report-layer](#get-amz-listing-report-layer)</li></ul> | <ul><li>On success: stocks _(type: Event Bridge, defined via ARN)_</li></ul> |
 
 See [configuration file](./serverless.yml) for more details.
 
