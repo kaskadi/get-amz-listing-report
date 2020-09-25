@@ -18,8 +18,38 @@
 
 [![](https://img.shields.io/lgtm/grade/javascript/github/kaskadi/get-amz-listing-report?label=code%20quality&logo=LGTM)](https://lgtm.com/projects/g/kaskadi/get-amz-listing-report/?mode=list&logo=LGTM)
 
-:point_right: **Badges here** :point_left:
+<!-- You can add badges inside of this section if you'd like -->
 
 ****
 
-:point_down: **Your documentation here** :point_down:
+<!-- automatically generated documentation will be placed in here -->
+# Resources documentation
+
+The following lambda functions are defined in this repository:
+- [get-amz-listing-report](#get-amz-listing-report)
+
+The following layers are defined in this repository:
+- [get-amz-listing-report-layer](#get-amz-listing-report-layer)
+
+## get-amz-listing-report <a name="get-amz-listing-report"></a>
+
+|          Name          | Sources                        | Timeout |                 Handler                | Layers                                                                          | Destinations                                                                                                          |
+| :--------------------: | :----------------------------- | :-----: | :------------------------------------: | :------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------- |
+| get-amz-listing-report | <ul><li>Event Bridge</li></ul> |   900   | [handler](./get-amz-listing-report.js) | <ul><li>[get-amz-listing-report-layer](#get-amz-listing-report-layer)</li></ul> | <ul><li>On success: arn:aws:events:eu-central-1:374163881813:event-bus/stocks</li><li>On failure: undefined</li></ul> |
+
+See [configuration file](./serverless.yml) for more details.
+
+## get-amz-listing-report-layer <a name="get-amz-listing-report-layer"></a>
+
+### Description
+
+Layer for get-amz-listing-report
+
+### Dependencies
+
+- `mws-client`, version: `^1.1.3` ([see on NPM](https://www.npmjs.com/package/mws-client))
+
+See [configuration file](./serverless.yml) for more details.
+<!-- automatically generated documentation will be placed in here -->
+
+<!-- You can customize this template as you'd like! -->
