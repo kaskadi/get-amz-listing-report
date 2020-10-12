@@ -47,7 +47,7 @@ Layer for get-amz-listing-report
 
 ### Dependencies
 
-- `mws-client`, version: `^1.1.3` ([see on NPM](https://www.npmjs.com/package/mws-client))
+- `mws-client`, version: `1.1.3` ([see on NPM](https://www.npmjs.com/package/mws-client))
 
 See [configuration file](./serverless.yml) for more details.
 
