@@ -7,12 +7,12 @@ module.exports = async (MWS, productIdsMaps, marketplace) => {
     let mwsData = await listInventorySupply(MWS, partialSellerSkus, marketplace, restoreRate)
     let result = mwsData.body.ListInventorySupplyResponse.ListInventorySupplyResult
     let nextToken = result.NextToken
-    let stocks = result.InventorySupplyList.member ? processStocksData(result.InventorySupplyList.member) : {}
+    let stocks = processStocksData(result.InventorySupplyList.member || [])
     while (nextToken) {
       const nextData = await listInventorySupplyByNextToken(MWS, nextToken, marketplace, restoreRate)
       result = nextData.body.ListInventorySupplyByNextTokenResponse.ListInventorySupplyByNextTokenResult
       nextToken = result.NextToken
-      stocks = {...stocks, ...processStocksData(result.InventorySupplyList.member)}
+      stocks = {...stocks, ...processStocksData(result.InventorySupplyList.member || [])}
     }
     quantityData = {...quantityData, ...stocks}
   }
