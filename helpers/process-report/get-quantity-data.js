@@ -37,6 +37,7 @@ function listInventorySupplyByNextToken (MWS, NextToken, marketplace, restoreRat
 }
 
 function processStocksData (stockData = []) {
+  stockData = [stockData].flat(1) // this prevent errors when stockData is a single Object (not array)
   return Object.fromEntries(stockData.map(data => [
     data.SellerSKU,
     { quantity: Number(data.InStockSupplyQuantity), condition: data.Condition }
