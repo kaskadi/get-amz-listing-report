@@ -4,9 +4,10 @@
 
 **GitHub Actions workflows status**
 
-[![](https://img.shields.io/github/workflow/status/kaskadi/get-amz-listing-report/deploy?label=deployed&logo=Amazon%20AWS)](https://github.com/kaskadi/get-amz-listing-report/actions?query=workflow%3Adeploy)
-[![](https://img.shields.io/github/workflow/status/kaskadi/get-amz-listing-report/build?label=build&logo=mocha)](https://github.com/kaskadi/get-amz-listing-report/actions?query=workflow%3Abuild)
-[![](https://img.shields.io/github/workflow/status/kaskadi/get-amz-listing-report/syntax-check?label=syntax-check&logo=serverless)](https://github.com/kaskadi/get-amz-listing-report/actions?query=workflow%3Asyntax-check)
+[![Deploy status](https://img.shields.io/github/workflow/status/kaskadi/get-amz-listing-report/deploy?label=deployed&logo=Amazon%20AWS)](https://github.com/kaskadi/get-amz-listing-report/actions?query=workflow%3Adeploy)
+[![Build status](https://img.shields.io/github/workflow/status/kaskadi/get-amz-listing-report/build?label=build&logo=mocha)](https://github.com/kaskadi/get-amz-listing-report/actions?query=workflow%3Abuild)
+[![Syntax check status](https://img.shields.io/github/workflow/status/kaskadi/get-amz-listing-report/syntax-check?label=syntax-check&logo=serverless)](https://github.com/kaskadi/get-amz-listing-report/actions?query=workflow%3Asyntax-check)
+[![Docs generation status](https://img.shields.io/github/workflow/status/kaskadi/get-amz-listing-report/generate-docs?label=docs&logo=read-the-docs)](https://github.com/kaskadi/get-amz-listing-report/actions?query=workflow%3Agenerate-docs)
 
 **CodeClimate**
 
