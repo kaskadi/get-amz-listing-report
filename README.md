@@ -15,10 +15,6 @@
 [![](https://img.shields.io/codeclimate/tech-debt/kaskadi/get-amz-listing-report?label=technical%20debt&logo=Code%20Climate)](https://codeclimate.com/github/kaskadi/get-amz-listing-report)
 [![](https://img.shields.io/codeclimate/coverage/kaskadi/get-amz-listing-report?label=test%20coverage&logo=Code%20Climate)](https://codeclimate.com/github/kaskadi/get-amz-listing-report)
 
-**LGTM**
-
-[![](https://img.shields.io/lgtm/grade/javascript/github/kaskadi/get-amz-listing-report?label=code%20quality&logo=LGTM)](https://lgtm.com/projects/g/kaskadi/get-amz-listing-report/?mode=list&logo=LGTM)
-
 <!-- You can add badges inside of this section if you'd like -->
 
 ****
